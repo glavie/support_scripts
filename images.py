@@ -5,6 +5,8 @@
 import pandas as pd
 import time
 import urllib.request
+from urllib.error import HTTPError
+import sys
 
 
 xls = pd.ExcelFile('/home/v.efimenko/test.Export_test.xlsx')
@@ -19,6 +21,11 @@ for row in df.iterrows():
 	for link in row[1]['Ссылка_изображения'].split(', '):
 		#На данном этапе происходит загрузка изображения с присваиванием порядкового номера в соответствии с файлом 
 		#экспорта и соответствующего формата картинки.
-		urllib.request.urlretrieve(link, '/home/v.efimenko/test/image {0}_{1}.{2}'.format(str(row[0] + 2), str(counter) ,link.split('.')[4]))
+		try:
+			urllib.request.urlretrieve(link, '/home/v.efimenko/test/image {0}_{1}.{2}'.format(str(row[0] + 1411), str(counter) ,link.split('.')[4]))
+		except HTTPError:
+			continue
+		counter += 1
+		time.sleep(3),link.split('.')[4]))
 		#Дабы не напороться на капчу добавляем интервал выполнения итераций
 		time.sleep(3)
