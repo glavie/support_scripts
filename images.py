@@ -22,7 +22,7 @@ for row in df.iterrows():
 		#На данном этапе происходит загрузка изображения с присваиванием порядкового номера в соответствии с файлом 
 		#экспорта и соответствующего формата картинки.
 		try:
-			urllib.request.urlretrieve(link, '/home/v.efimenko/test/image {0}_{1}.{2}'.format(str(row[0] + 1411), str(counter) ,link.split('.')[4]))
+			urllib.request.urlretrieve(link, '/home/v.efimenko/test/image {0}_{1}.{2}'.format(str(row[0] + 2), str(counter) ,link.split('.')[4]))
 		except HTTPError:
 			continue
 		counter += 1
