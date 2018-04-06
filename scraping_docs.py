@@ -3,13 +3,23 @@ from urllib.error import HTTPError
 from bs4 import BeautifulSoup
 import pandas as pd
 
+#На вход подается файл экспорта из GA по посещениям справки(первые 4 колонки),
+#с колонками: url, views, unique_views, time, video, img_count, text_doc, len_doc
+
+#Цель - заполнить остальные колонки и попытаться определить зависимость количества и времени просмотров от:
+#наличия видео на странице, количества изображений, длинны текста.
 
 xls = pd.ExcelFile('/home/v.efimenko/MySpace/Analytics.xlsx')
 
 df = xls.parse('prom', header=0, index_col=None).fillna('')
 
+#Основная функция для скрапинга
+#Поскольку на входе url в виде /documents/334 или /questions/101 в этих случаях необходимый тег и его атрибут отличаются
+
 def scrapp(url):
 
+	#Для страниц документации
+	
 	if 'documents' in url:
 
 		url = 'http://support.prom.ua' + url
@@ -19,7 +29,9 @@ def scrapp(url):
 		return [str(doc_html).count('alt=""'), '<iframe' in str(doc_html), doc_html.get_text().strip()]
 
 	elif 'questions' in url:
-
+	
+	#Для страниц с вопросами
+	
 		url = 'http://support.prom.ua' + url
 		html = urlopen(url)
 		bsObj = BeautifulSoup(html)
@@ -27,7 +39,8 @@ def scrapp(url):
 		return [str(doc_html).count('alt=""'), '<iframe' in str(doc_html), doc_html.get_text().strip()]
 
 	else:
-		
+	
+	#Для страниц навигации, которые попали в выборку (или поисковых запров)
 		return []
 
 
