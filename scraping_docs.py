@@ -26,7 +26,7 @@ def scrapp(url):
 
 		doc_html = bsObj.findAll("div", {"class": "b-user-support__user-content b-user-support__user-content_type_document"})[0]
 
-	elif 'questions' in url:
+	else:
 
 		doc_html = bsObj.findAll("blockquote", {"class": "b-teachers-info h-layout-vm-20"})[0]
 		
