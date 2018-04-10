@@ -42,11 +42,9 @@ for ind in range(len(df.index)):
 		result = scrapp(url)
 		df.loc[ind] = list(df.loc[ind][:4]) + result + [len(result[2])]		
 
-	except IndexError:
+	except (IndexError, HTTPError) as e:
 		continue
 
-	except HTTPError:
-		continue
 
 
 writer = pd.ExcelWriter('result.xlsx')
